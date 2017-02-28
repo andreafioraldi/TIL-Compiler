@@ -274,18 +274,43 @@ instructions_list
 type
 	: T_I8
 	| T_U8
-	
+	| T_I16
+	| T_U16
+	| T_I32
+	| T_U32
+	| T_I64
+	| T_U64
+	| T_F32
+	| T_F64
+	| T_VOID
+	| T_VP
+	| T_SSC
+	| T_SUC
+	| T_SSS
+	| T_SUS
+	| T_SSI
+	| T_SUI
+	| T_SSL
+	| T_SUL
+	| T_SSLL
+	| T_SULL
+	| T_SF
+	| T_SD
+	| T_SLD
 	| '^' type
+	{
+		
+	}
 	;
 
 instruction
 	: T_NOP
 	{
-		til_bytes_add(assembler->bytecode, 0);
+		til_bytes_add(assembler->bytecode, OP_NOP);
 	}
 	| T_LD_I8 T_CHAR
 	{
-		til_bytes_add(assembler->bytecode, 1);
+		til_bytes_add(assembler->bytecode, OP_LD_I8);
 		til_bytes_add(assembler->bytecode, $2);
 	}
 	| T_LD_I8 T_INT
