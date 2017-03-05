@@ -64,7 +64,40 @@ int til_serialize_type(char *type, til_bytes_t bytes)
 		til_bytes_add(bytes, TYPEID_LONG);
 	else if(!strcmp(type, "u64"))
 		til_bytes_add(bytes, TYPEID_ULONG);
-	//TODO
+	else if(!strcmp(type, "f32"))
+		til_bytes_add(bytes, TYPEID_FLOAT);
+	else if(!strcmp(type, "f64"))
+		til_bytes_add(bytes, TYPEID_DOUBLE);
+	else if(!strcmp(type, "void"))
+		til_bytes_add(bytes, TYPEID_VOID);
+	else if(!strcmp(type, "vp"))
+		til_bytes_add(bytes, TYPEID_VOID_PTR);
+	else if(!strcmp(type, "ssc"))
+		til_bytes_add(bytes, TYPEID_NATIVE_CHAR);
+	else if(!strcmp(type, "suc"))
+		til_bytes_add(bytes, TYPEID_NATIVE_UCHAR);
+	else if(!strcmp(type, "sss"))
+		til_bytes_add(bytes, TYPEID_NATIVE_SHORT);
+	else if(!strcmp(type, "sus"))
+		til_bytes_add(bytes, TYPEID_NATIVE_USHORT);
+	else if(!strcmp(type, "ssi"))
+		til_bytes_add(bytes, TYPEID_NATIVE_INT);
+	else if(!strcmp(type, "sui"))
+		til_bytes_add(bytes, TYPEID_NATIVE_UINT);
+	else if(!strcmp(type, "ssl"))
+		til_bytes_add(bytes, TYPEID_NATIVE_LONG);
+	else if(!strcmp(type, "sul"))
+		til_bytes_add(bytes, TYPEID_NATIVE_ULONG);
+	else if(!strcmp(type, "ssll"))
+		til_bytes_add(bytes, TYPEID_NATIVE_LONGLONG);
+	else if(!strcmp(type, "sull"))
+		til_bytes_add(bytes, TYPEID_NATIVE_ULONGLONG);
+	else if(!strcmp(type, "sf"))
+		til_bytes_add(bytes, TYPEID_NATIVE_FLOAT);
+	else if(!strcmp(type, "sd"))
+		til_bytes_add(bytes, TYPEID_NATIVE_DOUBLE);
+	else if(!strcmp(type, "sld"))
+		til_bytes_add(bytes, TYPEID_NATIVE_LONGDOUBLE);
 	else
 		return 1;
 	return 0;

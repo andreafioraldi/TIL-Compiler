@@ -52,109 +52,118 @@
 	} \
 }
 
+char* stringize
+	(char c)
+{
+	char* buf = malloc(2);
+	*buf = c;
+	buf[1] = 0;
+	return buf;
+}
+
 %}
 
 %%
 
 "i8"		{
-			yylval->byte = TYPEID_SBYTE;
+			yylval->text = stringize(TYPEID_SBYTE);
 			return T_I8;
 		}
 "u8"		{
-			yylval->byte = TYPEID_UBYTE;
+			yylval->text = stringize(TYPEID_UBYTE);
 			return T_U8;
 		}
 "i16"		{
-			yylval->byte = TYPEID_SHORT;
+			yylval->text = stringize(TYPEID_SHORT);
 			return T_I16;
 		}
 "u16"		{
-			yylval->byte = TYPEID_USHORT;
+			yylval->text = stringize(TYPEID_USHORT);
 			return T_U16;
 		}
 "i32"		{
-			yylval->byte = TYPEID_INT;
+			yylval->text = stringize(TYPEID_INT);
 			return T_I32;
 		}
 "u32"		{
-			yylval->byte = TYPEID_UINT;
+			yylval->text = stringize(TYPEID_UINT);
 			return T_U32;
 		}
 "i64"		{
-			yylval->byte = TYPEID_LONG;
+			yylval->text = stringize(TYPEID_LONG);
 			return T_I64;
 		}
 "u64"		{
-			yylval->byte = TYPEID_ULONG;
+			yylval->text = stringize(TYPEID_ULONG);
 			return T_U64;
 		}
 "f32"		{
-			yylval->byte = TYPEID_FLOAT;
+			yylval->text = stringize(TYPEID_FLOAT);
 			return T_F32;
 		}
 "f64"		{
-			yylval->byte = TYPEID_DOUBLE;
+			yylval->text = stringize(TYPEID_DOUBLE);
 			return T_F64;
 		}
 "void"		{
-			yylval->byte = TYPEID_VOID;
+			yylval->text = stringize(TYPEID_VOID);
 			return T_VOID;
 		}
 "vp"		{
-			yylval->byte = TYPEID_VOID_PTR;
+			yylval->text = stringize(TYPEID_VOID_PTR);
 			return T_VP;
 		}
 
 "ssc"		{
-			yylval->byte = TYPEID_NATIVE_CHAR;
+			yylval->text = stringize(TYPEID_NATIVE_CHAR);
 			return T_SSC;
 		}
 "suc"		{
-			yylval->byte = TYPEID_NATIVE_UCHAR;
+			yylval->text = stringize(TYPEID_NATIVE_UCHAR);
 			return T_SUC;
 		}
 "sss"		{
-			yylval->byte = TYPEID_NATIVE_SHORT;
+			yylval->text = stringize(TYPEID_NATIVE_SHORT);
 			return T_SSS;
 		}
 "sus"		{
-			yylval->byte = TYPEID_NATIVE_USHORT;
+			yylval->text = stringize(TYPEID_NATIVE_USHORT);
 			return T_SUC;
 		}
 "ssi"		{
-			yylval->byte = TYPEID_NATIVE_INT;
+			yylval->text = stringize(TYPEID_NATIVE_INT);
 			return T_SSI;
 		}
 "sui"		{
-			yylval->byte = TYPEID_NATIVE_UINT;
+			yylval->text = stringize(TYPEID_NATIVE_UINT);
 			return T_SUI;
 		}
 "ssl"		{
-			yylval->byte = TYPEID_NATIVE_LONG;
+			yylval->text = stringize(TYPEID_NATIVE_LONG);
 			return T_SSL;
 		}
 "sul"		{
-			yylval->byte = TYPEID_NATIVE_ULONG;
+			yylval->text = stringize(TYPEID_NATIVE_ULONG);
 			return T_SUL;
 		}
 "ssll"		{
-			yylval->byte = TYPEID_NATIVE_LONGLONG;
+			yylval->text = stringize(TYPEID_NATIVE_LONGLONG);
 			return T_SSLL;
 		}
 "sull"		{
-			yylval->byte = TYPEID_NATIVE_ULONGLONG;
+			yylval->text = stringize(TYPEID_NATIVE_ULONGLONG);
 			return T_SULL;
 		}
 "sf"		{
-			yylval->byte = TYPEID_NATIVE_FLOAT;
+			yylval->text = stringize(TYPEID_NATIVE_FLOAT);
 			return T_SF;
 		}
 "sd"		{
-			yylval->byte = TYPEID_NATIVE_DOUBLE;
+			yylval->text = stringize(TYPEID_NATIVE_DOUBLE);
 			return T_SD;
 		}
 "sld"		{
-			yylval->byte = TYPEID_NATIVE_LONGDOUBLE;
+			yylval->text = stringize(TYPEID_NATIVE_LONGDOUBLE);
 			return T_SLD;
 		}
 
@@ -218,6 +227,8 @@
 "push_arg_1"      { return T_PUSH_ARG_1; }
 "push_arg_2"      { return T_PUSH_ARG_2; }
 "push_arg_3"      { return T_PUSH_ARG_3; }
+"push_gbl"        { return T_PUSH_GBL; }
+"push_e_gbl"      { return T_PUSH_E_GBL; }
 "pop"             { return T_POP; }
 "dup"             { return T_DUP; }
 "clear"           { return T_CLEAR; }
@@ -235,6 +246,7 @@
 "decl_pt"         { return T_DECL_PT; }
 "decl_st"         { return T_DECL_ST; }
 "decl_e_st"       { return T_DECL_E_ST; }
+"decl_t"          { return T_DECL_T; }
 "store"           { return T_STORE; }
 "store_0"         { return T_STORE_0; }
 "store_1"         { return T_STORE_1; }
@@ -245,6 +257,8 @@
 "store_val_1"     { return T_STORE_VAL_1; }
 "store_val_2"     { return T_STORE_VAL_2; }
 "store_val_3"     { return T_STORE_VAL_3; }
+"store_gbl"       { return T_STORE_GBL; }
+"store_e_gbl"       { return T_STORE_GBL; }
 "set_at"          { return T_SET_AT; }
 "set_at_0"        { return T_SET_AT_0; }
 "set_at_1"        { return T_SET_AT_1; }
@@ -324,11 +338,17 @@
 "cast_pt"         { return T_CAST_PT; }
 "cast_st"         { return T_CAST_ST; }
 "cast_e_st"       { return T_CAST_E_ST; }
+"cast_t"          { return T_CAST_T; }
 "abort"           { return T_ABORT; }
 
 ("0"|[1-9][0-9]*)|("0"[xX]([0-9]|[a-fA-F])+)|("0"[0-7]+) {
 	yylval->text = strdup(yytext);
 	return T_INT;
+}
+
+[0-9]*"."[0-9]+ {
+	yylval->text = strdup(yytext);
+	return T_FLOAT;
 }
 
 \'(\\.|[^\\'])+\' {
@@ -361,6 +381,8 @@
 				yylval->byte = '\t';
 			else if(*buf == 'r')
 				yylval->byte = '\r';
+			else if(*buf == 'v')
+				yylval->byte = '\v';
 			else CHAR_ERR;
 		}
 		else if(size == 4)

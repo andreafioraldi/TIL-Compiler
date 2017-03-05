@@ -30,7 +30,7 @@ til_bytes_t assembler
 	(char* assembly, int initial_line, til_bytes_t err)
 {
 	til_bytes_t bytecode = til_bytes_create();
-	printf("initial %d\n", initial_line);
+	
 	assembler_data_t assembler;
 	assembler_data_init(assembler, assembly, initial_line, bytecode, err);
 	
