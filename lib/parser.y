@@ -315,6 +315,8 @@ type
 		($$)[0] = TYPEID_POINTER;
 		memcpy($$ +1, $2, len);
 		($$)[len +1] = 0;
+		
+		free($2);
 	}
 	;
 
@@ -332,6 +334,7 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_LD_I8);
 		til_bytes_add(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_LD_U8 T_CHAR
 	{
@@ -342,50 +345,59 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_LD_U8);
 		til_bytes_add(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_LD_I16 T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_LD_I16);
 		til_bytes_add_short(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_LD_U16 T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_LD_U16);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_LD_I32 T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_LD_I32);
 		til_bytes_add_int(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_LD_U32 T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_LD_U32);
 		til_bytes_add_uint(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_LD_I64 T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_LD_I64);
 		long long num = strtoll($2, NULL, 0);
 		til_bytes_add_long(assembler->bytecode, num);
+		free($2);
 	}
 	| T_LD_U64 T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_LD_U64);
 		unsigned long long num = strtoull($2, NULL, 0);
 		til_bytes_add_ulong(assembler->bytecode, num);
+		free($2);
 	}
 	| T_LD_F32 T_FLOAT
 	{
 		til_bytes_add(assembler->bytecode, OP_LD_F32);
 		double num = strtod($2, NULL);
 		til_bytes_add_float32(assembler->bytecode, num);
+		free($2);
 	}
 	| T_LD_F64 T_FLOAT
 	{
 		til_bytes_add(assembler->bytecode, OP_LD_F64);
 		double num = strtod($2, NULL);
 		til_bytes_add_float64(assembler->bytecode, num);
+		free($2);
 	}
 	| T_LD_NULL
 	{
@@ -395,6 +407,7 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_LD_STR);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_ADDR
 	{
@@ -412,6 +425,7 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_AT_C);
 		til_bytes_add_uint(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_AT_1
 	{
@@ -433,6 +447,7 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_AD_AT_C);
 		til_bytes_add_uint(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_AD_AT_1
 	{
@@ -450,6 +465,7 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_FIELD);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_FIELD_0
 	{
@@ -471,6 +487,7 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_PT_FIELD);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_PT_FIELD_0
 	{
@@ -492,6 +509,7 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_AD_FIELD);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_AD_FIELD_0
 	{
@@ -513,6 +531,7 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_AD_PT_FIELD);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_AD_PT_FIELD_0
 	{
@@ -534,6 +553,7 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_PUSH);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_PUSH_0
 	{
@@ -555,6 +575,7 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_PUSH_AD);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_PUSH_AD_0
 	{
@@ -576,6 +597,7 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_PUSH_ARG);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_PUSH_ARG_0
 	{
@@ -597,11 +619,13 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_PUSH_GBL);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_PUSH_E_GBL T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_PUSH_E_GBL);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_POP
 	{
@@ -619,82 +643,99 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_DECL_I8);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_DECL_U8 T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_DECL_U8);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_DECL_I16 T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_DECL_I16);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_DECL_U16 T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_DECL_U16);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_DECL_I32 T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_DECL_I32);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_DECL_U32 T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_DECL_U32);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_DECL_I64 T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_DECL_I64);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_DECL_U64 T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_DECL_U64);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_DECL_F32 T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_DECL_F32);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_DECL_F64 T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_DECL_F64);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_DECL_VP T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_DECL_VP);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_DECL_PT T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_DECL_PT);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_DECL_ST T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_DECL_ST);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_DECL_E_ST T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_DECL_E_ST);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_DECL_T type T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_DECL_E_ST);
 		til_bytes_add_str(assembler->bytecode, $2, strlen($2));
 		til_bytes_add_ushort(assembler->bytecode, atoi($3));
+		free($2);
+		free($3);
 	}
 	| T_STORE T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_STORE);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_STORE_0
 	{
@@ -715,6 +756,7 @@ instruction
 	| T_STORE_VAL T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_STORE_VAL);
+		free($2);
 	}
 	| T_STORE_VAL_0
 	{
@@ -736,15 +778,18 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_STORE_GBL);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_STORE_E_GBL T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_STORE_E_GBL);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_SET_AT T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_SET_AT);
+		free($2);
 	}
 	| T_SET_AT_0
 	{
@@ -766,11 +811,13 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_SET_AT_C);
 		til_bytes_add_uint(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_SET_FIELD T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_SET_FIELD);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_SET_FIELD_0
 	{
@@ -792,6 +839,7 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_SET_PT_FIELD);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_SET_PT_FIELD_0
 	{
@@ -818,6 +866,7 @@ instruction
 		til_bytes_add(assembler->bytecode, OP_S_ALLOC_C);
 		long long num = strtoll($2, NULL, 0);
 		til_bytes_add_ulong(assembler->bytecode, num);
+		free($2);
 	}
 	| T_GC_ALLOC
 	{
@@ -828,6 +877,7 @@ instruction
 		til_bytes_add(assembler->bytecode, OP_GC_ALLOC_C);
 		long long num = strtoll($2, NULL, 0);
 		til_bytes_add_ulong(assembler->bytecode, num);
+		free($2);
 	}
 	| T_GC_ATOM_ALLOC
 	{
@@ -838,30 +888,39 @@ instruction
 		til_bytes_add(assembler->bytecode, OP_GC_ATOM_ALLOC_C);
 		long long num = strtoll($2, NULL, 0);
 		til_bytes_add_ulong(assembler->bytecode, num);
+		free($2);
 	}
 	| T_CALL T_INT T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_CALL);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
 		til_bytes_add_ushort(assembler->bytecode, atoi($3));
+		free($2);
+		free($3);
 	}
 	| T_N_CALL T_INT T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_N_CALL);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
 		til_bytes_add_ushort(assembler->bytecode, atoi($3));
+		free($2);
+		free($3);
 	}
 	| T_E_CALL T_INT T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_E_CALL);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
 		til_bytes_add_ushort(assembler->bytecode, atoi($3));
+		free($2);
+		free($3);
 	}
 	| T_EN_CALL T_INT T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_EN_CALL);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
 		til_bytes_add_ushort(assembler->bytecode, atoi($3));
+		free($2);
+		free($3);
 	}
 	| T_RET
 	{
@@ -875,26 +934,31 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_FUNC_AD);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_E_FUNC_AD T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_E_FUNC_AD);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_N_FUNC_AD T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_N_FUNC_AD);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_EN_FUNC_AD T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_EN_FUNC_AD);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_CALL_PT T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_CALL_PT);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_VAL_ASSIGN
 	{
@@ -908,12 +972,15 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_SIZEOF_T);
 		til_bytes_add_str(assembler->bytecode, $2, strlen($2));
+		free($2);
 	}
 	| T_SIZEOF_T_MUL type T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_SIZEOF_T_MUL);
 		til_bytes_add_str(assembler->bytecode, $2, strlen($2));
 		til_bytes_add_ushort(assembler->bytecode, atoi($3));
+		free($2);
+		free($3);
 	}
 	| T_MINUM
 	{
@@ -1010,26 +1077,31 @@ instruction
 	| T_TO_BOOL_N T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_TO_BOOL_N);
+		free($2);
 	}
 	| T_JMP T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_JMP);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_JMP_IF T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_JMP_IF);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_JMP_IF_N T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_JMP_IF_N);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_LABEL T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_LABEL);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_CAST_I8
 	{
@@ -1079,21 +1151,25 @@ instruction
 	{
 		til_bytes_add(assembler->bytecode, OP_CAST_PT);
 		til_bytes_add_str(assembler->bytecode, $2, strlen($2));
+		free($2);
 	}
 	| T_CAST_ST T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_CAST_ST);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_CAST_E_ST T_INT
 	{
 		til_bytes_add(assembler->bytecode, OP_CAST_E_ST);
 		til_bytes_add_ushort(assembler->bytecode, atoi($2));
+		free($2);
 	}
 	| T_CAST_T type
 	{
 		til_bytes_add(assembler->bytecode, OP_CAST_PT);
 		til_bytes_add_str(assembler->bytecode, $2, strlen($2));
+		free($2);
 	}
 	| T_ABORT
 	{

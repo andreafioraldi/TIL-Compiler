@@ -129,6 +129,8 @@ til_bytes_t til_compile
 	//create the error buffer
 	til_bytes_t err = til_bytes_create();
 	
+	xmlInitParser();
+	
 	//set the error handler function for the parser
 	xmlSetGenericErrorFunc(err, parser_error_handler);
 	
@@ -156,6 +158,7 @@ til_bytes_t til_compile
 	else til_bytes_free(err);
 	
 	xmlFreeDoc(doc);
+	xmlCleanupParser();
 	return bytecode;
 }
 

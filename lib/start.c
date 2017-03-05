@@ -1,5 +1,5 @@
 /*
- * funcs.c
+ * start.c
  *
  * Copyright 2017 Andrea Fioraldi <andreafioraldi@gmail.com>
  *
@@ -25,20 +25,12 @@
 
 #include "til_internal.h"
 
-int compile_function
+int compile_start
 	(xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err)
 {
-	//get signature node
-	xmlNodePtr child = xmlFirstElementChild(node);
-	CHECK_MISSING_NODE(child, "signature");
-	if(xmlStrcmp(child->name, XC"signature") != 0)
-		NODE_ERROR(child, "the first child of a 'func' node must be a 'signature' node");
-	
-	int r = compile_signature(child, bytecode, err);
-	
 	xmlChar* stack = xmlGetProp(node, "stack");
 	if(stack == NULL)
-		NODE_ERROR(node, "missing 'stack' attribute in 'func' node");
+		NODE_ERROR(node, "missing 'stack' attribute in 'start' node");
 	
 	uint16_t num = atoi(stack);
 	til_bytes_add_ushort(bytecode, num);
@@ -47,7 +39,7 @@ int compile_function
 	
 	xmlChar* locals = xmlGetProp(node, "locals");
 	if(locals == NULL)
-		NODE_ERROR(node, "missing 'locals' attribute in 'func' node");
+		NODE_ERROR(node, "missing 'locals' attribute in 'start' node");
 	
 	num = atoi(locals);
 	til_bytes_add_ushort(bytecode, num);
@@ -56,18 +48,18 @@ int compile_function
 	
 	xmlChar* labels = xmlGetProp(node, "labels");
 	if(labels == NULL)
-		NODE_ERROR(node, "missing 'labels' attribute in 'func' node");
+		NODE_ERROR(node, "missing 'labels' attribute in 'start' node");
 	
 	num = atoi(labels);
 	til_bytes_add_ushort(bytecode, num);
 	
 	xmlFree(labels);
 	
-	child = xmlNextElementSibling(child);
+	xmlNodePtr child = xmlFirstElementChild(node);
 	CHECK_MISSING_NODE(child, "code");
 	if(xmlStrcmp(child->name, XC"code") != 0)
-		NODE_ERROR(child, "the second child of a 'func' node must be a 'code' node");
-	
+		NODE_ERROR(child, "the child of the 'start' node must be a 'code' node");
+		
 	if(child->children)
 	{
 		char* text = (char*)child->children->content;
@@ -79,34 +71,13 @@ int compile_function
 		
 		til_bytes_add_uint(bytecode, til_bytes_get_buffer_size(b));
 		til_bytes_cat(bytecode, b);
+		
+		til_bytes_free(b);
 	}
 	else til_bytes_add_uint(bytecode, 0);
-	
-	return r;
-}
 
-int compile_functions
-	(xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err)
-{
-	xmlNodePtr child = xmlFirstElementChild(node);
-	
-	uint16_t count = (uint16_t)xmlChildElementCount(node);
-	
-	til_bytes_add_ushort(bytecode, count);
-	
-	int sum = 0;
-	
-	while(child != NULL)
-	{
-		if(xmlStrcmp(child->name, XC"func") != 0)
-			NODE_ERROR(child, "a child of the 'funcs' node must be a 'func' node");
-		
-		sum += compile_function(child, bytecode, err);
-		
-		child = xmlNextElementSibling(child);
-	}
-
-	if(sum)
-		return 1;
 	return 0;
 }
+
+
+
