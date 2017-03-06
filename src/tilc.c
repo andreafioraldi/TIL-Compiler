@@ -27,6 +27,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#endif
+
 static void help(FILE* file)
 {
 	fprintf(file, "Usage: tilc [options] <source-file>\n"

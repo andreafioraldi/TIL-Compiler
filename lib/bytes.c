@@ -60,7 +60,7 @@ void til_bytes_add_str
 	bytes->len = len;
 }
 
-//note: numbers are stored using the big-endian format
+//note: numbers are stored using the little-endian format
 
 void til_bytes_add_short
 	(til_bytes_t bytes, int16_t n)
@@ -71,8 +71,8 @@ void til_bytes_add_short
 	}
 	
 	unsigned char a[2];
-	a[0] = (n >> 8) & 0xFF;
-	a[1] = n & 0xFF;
+	a[1] = (n >> 8) & 0xFF;
+	a[0] = n & 0xFF;
 	
 	memcpy(bytes->buf + bytes->len, a, 2);
 	bytes->len += 2;
@@ -87,8 +87,8 @@ void til_bytes_add_ushort
 	}
 	
 	unsigned char a[2];
-	a[0] = (n >> 8) & 0xFF;
-	a[1] = n & 0xFF;
+	a[1] = (n >> 8) & 0xFF;
+	a[0] = n & 0xFF;
 	
 	memcpy(bytes->buf + bytes->len, a, 2);
 	bytes->len += 2;
@@ -104,10 +104,10 @@ void til_bytes_add_int
 	}
 	
 	unsigned char a[4];
-	a[0] = (n >> 24) & 0xFF;
-	a[1] = (n >> 16) & 0xFF;
-	a[2] = (n >> 8) & 0xFF;
-	a[3] = n & 0xFF;
+	a[3] = (n >> 24) & 0xFF;
+	a[2] = (n >> 16) & 0xFF;
+	a[1] = (n >> 8) & 0xFF;
+	a[0] = n & 0xFF;
 	
 	memcpy(bytes->buf + bytes->len, a, 4);
 	bytes->len += 4;
@@ -122,10 +122,10 @@ void til_bytes_add_uint
 	}
 	
 	unsigned char a[4];
-	a[0] = (n >> 24) & 0xFF;
-	a[1] = (n >> 16) & 0xFF;
-	a[2] = (n >> 8) & 0xFF;
-	a[3] = n & 0xFF;
+	a[3] = (n >> 24) & 0xFF;
+	a[2] = (n >> 16) & 0xFF;
+	a[1] = (n >> 8) & 0xFF;
+	a[0] = n & 0xFF;
 	
 	memcpy(bytes->buf + bytes->len, a, 4);
 	bytes->len += 4;
@@ -141,14 +141,14 @@ void til_bytes_add_long
 	}
 	
 	unsigned char a[8];
-	a[0] = (n >> 56) & 0xFF;
-	a[1] = (n >> 48) & 0xFF;
-	a[2] = (n >> 40) & 0xFF;
-	a[3] = (n >> 32) & 0xFF;
-	a[4] = (n >> 24) & 0xFF;
-	a[5] = (n >> 16) & 0xFF;
-	a[6] = (n >> 8) & 0xFF;
-	a[7] = n & 0xFF;
+	a[7] = (n >> 56) & 0xFF;
+	a[6] = (n >> 48) & 0xFF;
+	a[5] = (n >> 40) & 0xFF;
+	a[4] = (n >> 32) & 0xFF;
+	a[3] = (n >> 24) & 0xFF;
+	a[2] = (n >> 16) & 0xFF;
+	a[1] = (n >> 8) & 0xFF;
+	a[0] = n & 0xFF;
 	
 	memcpy(bytes->buf + bytes->len, a, 8);
 	bytes->len += 8;
@@ -163,14 +163,14 @@ void til_bytes_add_ulong
 	}
 	
 	unsigned char a[8];
-	a[0] = (n >> 56) & 0xFF;
-	a[1] = (n >> 48) & 0xFF;
-	a[2] = (n >> 40) & 0xFF;
-	a[3] = (n >> 32) & 0xFF;
-	a[4] = (n >> 24) & 0xFF;
-	a[5] = (n >> 16) & 0xFF;
-	a[6] = (n >> 8) & 0xFF;
-	a[7] = n & 0xFF;
+	a[7] = (n >> 56) & 0xFF;
+	a[6] = (n >> 48) & 0xFF;
+	a[5] = (n >> 40) & 0xFF;
+	a[4] = (n >> 32) & 0xFF;
+	a[3] = (n >> 24) & 0xFF;
+	a[2] = (n >> 16) & 0xFF;
+	a[1] = (n >> 8) & 0xFF;
+	a[0] = n & 0xFF;
 	
 	memcpy(bytes->buf + bytes->len, a, 8);
 	bytes->len += 8;

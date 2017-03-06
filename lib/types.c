@@ -37,14 +37,22 @@ int til_serialize_type(char *type, til_bytes_t bytes)
 	if(*type == '#')
 	{
 		++type;
-		uint16_t idx = atoi(type);
+		char* e;
+		uint16_t idx = strtol(type, &e, 0);
+		if(*e != 0)
+			return 1;
+		
 		til_bytes_add(bytes, TYPEID_STRUCT);
 		til_bytes_add_ushort(bytes, idx);
 	}
 	else if(*type == '@')
 	{
 		++type;
-		uint16_t idx = atoi(type);
+		char* e;
+		uint16_t idx = strtol(type, &e, 0);
+		if(*e != 0)
+			return 1;
+		
 		til_bytes_add(bytes, TYPEID_LIB_STRUCT);
 		til_bytes_add_ushort(bytes, idx);
 	}
