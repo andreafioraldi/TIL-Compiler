@@ -61,9 +61,6 @@ struct _til_bytes
 	size_t allocd;
 };
 
-int compile_libs
-	(xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
-
 int compile_strings
 	(xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
 
@@ -83,6 +80,9 @@ int compile_start
 	(xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
 
 int compile_functions
+	(xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
+
+int compile_libs
 	(xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
 
 struct _assembler_data

@@ -72,7 +72,7 @@ int compile_function
 	{
 		char* text = (char*)child->children->content;
 		
-		til_bytes_t b = assembler(text, xmlGetLineNo(child) -1, err);
+		til_bytes_t b = til_assembler(text, xmlGetLineNo(child) -1, err);
 		
 		if(b == NULL)
 			return 1;

@@ -45,19 +45,11 @@ int compile_tree
 	//all return values ​​will be added to this variable
 	int sum = 0;
 	
-	//process libs node
-	xmlNodePtr child = xmlFirstElementChild(root);
-	CHECK_MISSING_NODE(child, "libs");
-	if(xmlStrcmp(child->name, XC"libs") != 0)
-		NODE_ERROR(child, "the first child of the 'til' node must be the 'libs' node");
-	
-	sum += compile_libs(child, bytecode, err);
-	
 	//process strings node
-	child = xmlNextElementSibling(child);
+	xmlNodePtr child = xmlFirstElementChild(root);
 	CHECK_MISSING_NODE(child, "strings");
 	if(xmlStrcmp(child->name, XC"strings") != 0)
-		NODE_ERROR(child, "the second child of the 'til' node must be the 'strings' node");
+		NODE_ERROR(child, "the first child of the 'til' node must be the 'strings' node");
 	
 	sum += compile_strings(child, bytecode, err);
 	
@@ -65,7 +57,7 @@ int compile_tree
 	child = xmlNextElementSibling(child);
 	CHECK_MISSING_NODE(child, "structs");
 	if(xmlStrcmp(child->name, XC"structs") != 0)
-		NODE_ERROR(child, "the third child of the 'til' node must be the 'structs' node");
+		NODE_ERROR(child, "the second child of the 'til' node must be the 'structs' node");
 	
 	sum += compile_structs(child, bytecode, err);
 	
@@ -73,7 +65,7 @@ int compile_tree
 	child = xmlNextElementSibling(child);
 	CHECK_MISSING_NODE(child, "globals");
 	if(xmlStrcmp(child->name, XC"globals") != 0)
-		NODE_ERROR(child, "the fourth child of the 'til' node must be the 'globals' node");
+		NODE_ERROR(child, "the third child of the 'til' node must be the 'globals' node");
 	
 	sum += compile_vars("globals", child, bytecode, err);
 	
@@ -81,7 +73,7 @@ int compile_tree
 	child = xmlNextElementSibling(child);
 	CHECK_MISSING_NODE(child, "natives");
 	if(xmlStrcmp(child->name, XC"natives") != 0)
-		NODE_ERROR(child, "the fifth child of the 'til' node must be the 'natives' node");
+		NODE_ERROR(child, "the fourth child of the 'til' node must be the 'natives' node");
 	
 	sum += compile_natives(child, bytecode, err);
 	
@@ -89,7 +81,7 @@ int compile_tree
 	child = xmlNextElementSibling(child);
 	CHECK_MISSING_NODE(child, "start");
 	if(xmlStrcmp(child->name, XC"start") != 0)
-		NODE_ERROR(child, "the sixth child of the 'til' node must be the 'start' node");
+		NODE_ERROR(child, "the fifth child of the 'til' node must be the 'start' node");
 	
 	sum += compile_start(child, bytecode, err);
 	
@@ -97,9 +89,17 @@ int compile_tree
 	child = xmlNextElementSibling(child);
 	CHECK_MISSING_NODE(child, "funcs");
 	if(xmlStrcmp(child->name, XC"funcs") != 0)
-		NODE_ERROR(child, "the seventh child of the 'til' node must be the 'funcs' node");
+		NODE_ERROR(child, "the sixth child of the 'til' node must be the 'funcs' node");
 	
 	sum += compile_functions(child, bytecode, err);
+	
+	//process libs node
+	child = xmlNextElementSibling(child);
+	CHECK_MISSING_NODE(child, "libs");
+	if(xmlStrcmp(child->name, XC"libs") != 0)
+		NODE_ERROR(child, "the seventh child of the 'til' node must be the 'libs' node");
+	
+	sum += compile_libs(child, bytecode, err);
 	
 	if(sum)
 		return 1;

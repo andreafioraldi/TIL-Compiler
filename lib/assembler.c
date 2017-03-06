@@ -26,7 +26,7 @@
 #include "til_internal.h"
 #include "parser.h"
 
-til_bytes_t assembler
+til_bytes_t til_assembler
 	(char* assembly, int initial_line, til_bytes_t err)
 {
 	til_bytes_t bytecode = til_bytes_create();

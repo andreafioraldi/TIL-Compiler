@@ -51,6 +51,6 @@ else()
 	install(TARGETS tilcompiler LIBRARY DESTINATION lib)
 endif()
 
-install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../include/til.h" DESTINATION include)
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../include/til.h" DESTINATION "include/tripel")
 
 
