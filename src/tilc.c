@@ -31,7 +31,8 @@
 #include "TargetConditionals.h"
 #endif
 
-static void help(FILE* file)
+static void help
+	(FILE* file)
 {
 	fprintf(file, "Usage: tilc [options] <source-file>\n"
 	              "Options:\n"
@@ -92,7 +93,8 @@ static void info()
 	puts("    + license: GNU Lesser General Public License v3\n");
 }
 
-int main(int argc, char** argv)
+int main
+	(int argc, char** argv)
 {
 	if(argc < 2)
 	{

@@ -242,70 +242,70 @@
 #define OP_CAST_T                   0xab
 #define OP_ABORT                    0xac
 
-/* bytes queque data structure */
+/* bytes stack data structure */
 struct _til_bytes;
 typedef struct _til_bytes* til_bytes_t;
 
-/* alloc a bytes queque */
+/* alloc a bytes stack */
 til_bytes_t til_bytes_create();
 
-/* add a bytes to the queque */
+/* add a byte to a bytes stack */
 void til_bytes_add
 	(til_bytes_t bytes, unsigned char b);
 
-/* add a bytes array to the queque */
+/* add a bytes array to a bytes stack */
 void til_bytes_add_str
 	(til_bytes_t bytes, unsigned char* a, size_t l);
 
-/* serialize and add a short to the queque */
+/* serialize and add a short to a bytes stack */
 void til_bytes_add_short
 	(til_bytes_t bytes, int16_t n);
 
-/* serialize and add an unsigned short to the queque */
+/* serialize and add an unsigned short to a bytes stack */
 void til_bytes_add_ushort
 	(til_bytes_t bytes, uint16_t n);
 
-/* serialize and add an int to the queque */
+/* serialize and add an int to a bytes stack */
 void til_bytes_add_int
 	(til_bytes_t bytes, int32_t n);
 
-/* serialize and add an unsigned int to the queque */
+/* serialize and add an unsigned int to a bytes stack */
 void til_bytes_add_uint
 	(til_bytes_t bytes, uint32_t n);
 
-/* serialize and add a long to the queque */
+/* serialize and add a long to a bytes stack */
 void til_bytes_add_long
 	(til_bytes_t bytes, int64_t n);
 
-/* serialize and add an unsigned long to the queque */
+/* serialize and add an unsigned long to a bytes stack */
 void til_bytes_add_ulong
 	(til_bytes_t bytes, uint64_t n);
 
-/* serialize and add a float to the queque */
+/* serialize and add a float to a bytes stack */
 void til_bytes_add_float32
 	(til_bytes_t bytes, float n);
 
-/* serialize and add a double to the queque */
+/* serialize and add a double to a bytes stack */
 void til_bytes_add_float64
 	(til_bytes_t bytes, double n);
 
-/* append a bytes queque */
+/* append a bytes stack to another */
 void til_bytes_cat
 	(til_bytes_t bytes, til_bytes_t b);
 
-/* print the entire queque to a file */
+/* print the entire bytes stack to a file */
 void til_bytes_print
 	(til_bytes_t bytes, FILE* file);
 
-/* get a copy of the queque's bytes array */
+/* get a copy of the bytes stack's buffer */
 unsigned char* til_bytes_get_buffer
 	(til_bytes_t bytes);
 
-/* get the size of bytes in the queque */
+/* get the number of the bytes in a bytes stack */
 size_t til_bytes_get_buffer_size
 	(til_bytes_t bytes);
 
-/* free the queque and its content */
+/* free a bytes stack and its content */
 void til_bytes_free
 	(til_bytes_t bytes);
 
@@ -319,7 +319,7 @@ int til_serialize_type
 til_bytes_t til_compile
 	(char *source, char** err_ptr);
 
-/* compile only til assembly  to bytecode,
+/* compile only til assembly to bytecode,
    return NULL on failure */
 til_bytes_t til_assembler
 	(char* assembly, int initial_line, til_bytes_t err);

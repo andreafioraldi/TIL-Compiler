@@ -60,7 +60,7 @@ if((node) == NULL) \
 	return 1; \
 }
 
-/* bytes queque data structure definition */
+/* bytes stack data structure definition */
 struct _til_bytes
 {
 	unsigned char *buf;

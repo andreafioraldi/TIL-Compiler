@@ -85,7 +85,7 @@ int compile_function
 		//add the length of the compiled code to the bytecode
 		til_bytes_add_uint(bytecode, til_bytes_get_buffer_size(b));
 		
-		//merge compiled code to the main bytecode queque
+		//merge compiled code to the main bytecode stack
 		til_bytes_cat(bytecode, b);
 		
 		til_bytes_free(b);
