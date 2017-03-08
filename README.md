@@ -9,7 +9,7 @@ Build tool:
 + cmake (version >= 3.0.2) - https://cmake.org/
 
 ## How to install
-```
+```shell
 cd <build-dir>
 cmake <source-dir>
 make
@@ -21,8 +21,8 @@ sudo make install
 tilc [options] <source-file>
 ```
 Options:
-+ --help          Show help about usage
-+ --info          Print compiler build info
-+ --stdout        Print compiled bytecode to standard output
-+ --stdin         Get source code from standard ipnut
-+ -o <file>       Set output file name
++ ```--help``` Show help about usage
++ ```--info``` Print compiler build info
++ ```--stdout``` Print compiled bytecode to standard output
++ ```--stdin``` Get source code from standard ipnut
++ ```-o <file>``` Set output file name

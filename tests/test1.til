@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+
+<til version="1.0">
+	<strings>
+		<string> </string>
+		<string>Hello</string>
+	</strings>
+
+	<structs>
+		<struct name="C">
+			<var type="i32" name="f1"/>
+			<var type="u8" name="f2"/>
+		</struct>
+	</structs>
+
+	<globals>
+		<var type="i32" name="gbl2"/>
+	</globals>
+
+	<natives>
+		<native name="libc">
+			<signature name="putchar" type="i32">
+				<param type="i32"/>
+			</signature>
+		</native>
+	</natives>
+
+	<start stack="1" locals="0" labels="0">
+		<code>
+			ld_i32 95
+			store_gbl 0
+		</code>
+		
+		
+	</start>
+
+	<funcs>
+		<func stack="1" locals="0" labels="0">
+			<signature name="Foo" type="i32">
+			</signature>
+			<code>
+				push_gbl 0
+				n_call 0 1
+				ret
+			</code>
+		</func>
+		
+		<func stack="1" locals="0" labels="0">
+			<signature name="Main" type="i32">
+				<param type="i32"/>
+				<param type="^^i8"/>
+			</signature>
+			<code>
+				call 0 0
+				ret
+			</code>
+		</func>
+	</funcs>
+	
+	<libs>
+		<lib name="MyLib">
+			<records>
+				<link name="A"/>
+				<link name="B"/>
+			</records>
+			<data>
+				<link name="gbl0"/>
+				<link name="gbl1"/>
+			</data>
+			<imported>
+				<link name="puts"/>
+			</imported>
+			<functions>
+				<link name="MyPrint"/>
+			</functions>
+		</lib>
+	</libs>
+</til>
+
+
+
+
