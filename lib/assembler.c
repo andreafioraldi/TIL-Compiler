@@ -31,12 +31,14 @@ til_bytes_t til_assembler
 {
 	til_bytes_t bytecode = til_bytes_create();
 	
+	//init lexer and set assembler fields
 	assembler_data_t assembler;
 	assembler_data_init(assembler, assembly, initial_line, bytecode, err);
 	
 	//call the bison generated parser
 	yyparse(assembler);
 	
+	//destroy assembler lexer
 	assembler_data_destroy(assembler);
 	
 	if(assembler->errors_num)

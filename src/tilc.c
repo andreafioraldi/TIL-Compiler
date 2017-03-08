@@ -38,7 +38,7 @@ static void help(FILE* file)
 	              "    --help          Show this help\n"
 	              "    --info          Print compiler build info\n"
 	              "    --stdout        Print compiled bytecode to standard output\n"
-	              "    --stdin         Get source code from standard inut\n"
+	              "    --stdin         Get source code from standard input\n"
 	              "    -o <file>       Set output file name\n\n"
 	              "For info or bug report visit\n"
 	              "<http://andreafioraldi.altervista.org>\n");
@@ -100,6 +100,7 @@ int main(int argc, char** argv)
 		return EXIT_FAILURE;
 	}
 	
+	//parse arguments
 	if(strcmp(argv[1], "--help") == 0)
 	{
 		help(stdout);
@@ -146,17 +147,20 @@ int main(int argc, char** argv)
 		}
 	}
 	
+	//set input file
 	FILE* input;
 	if(input_file)
 		input = fopen(input_file, "r");
 	else input = stdin;
 
+	//get input length
 	fseek(input, 0, SEEK_END);
 	long input_size = ftell(input);
 	rewind(input);
 	
 	char* input_content = malloc(input_size +1);
 	
+	//read input
 	long k;
 	for(k = 0; k < input_size; ++k)
 		input_content[k] = fgetc(input);
@@ -164,7 +168,8 @@ int main(int argc, char** argv)
 	
 	if(input_file)
 		fclose(input);
-		
+	
+	//compile
 	char* err = NULL;
 	til_bytes_t bytecode = til_compile(input_content, &err);
 	if(bytecode == NULL)
@@ -176,11 +181,13 @@ int main(int argc, char** argv)
 		return EXIT_FAILURE;
 	}
 	
+	//set output
 	FILE* output;
 	if(output_file)
 		output = fopen(output_file, "wb");
 	else output = stdout;
 	
+	//write output
 	til_bytes_print(bytecode, output);
 	
 	til_bytes_free(bytecode);

@@ -30,17 +30,19 @@ int compile_vars
 {
 	xmlNodePtr child = xmlFirstElementChild(node);
 	
+	//add the number of node children to bytecode
 	uint16_t count = (uint16_t)xmlChildElementCount(node);
-	
 	til_bytes_add_ushort(bytecode, count);
 	
 	int sum = 0;
 	
+	//process each var node
 	while(child != NULL)
 	{
 		if(xmlStrcmp(child->name, XC"var") != 0)
 			NODE_ERROR(child, "a child of the '%s' node must be a 'var' node", node_name);
 		
+		//get var name
 		xmlChar* name = xmlGetProp(child, "name");
 		if(name == NULL)
 			NODE_ERROR(child, "missing 'name' attribute in 'var' node");
@@ -49,6 +51,7 @@ int compile_vars
 		
 		xmlFree(name);
 		
+		//get var type
 		xmlChar* type = xmlGetProp(child, "type");
 		if(type == NULL)
 			NODE_ERROR(child, "missing 'type' attribute in 'var' node");
@@ -72,17 +75,19 @@ int compile_structs
 {
 	xmlNodePtr child = xmlFirstElementChild(node);
 	
+	//add the number of node children to bytecode
 	uint16_t count = (uint16_t)xmlChildElementCount(node);
-	
 	til_bytes_add_ushort(bytecode, count);
 	
 	int sum = 0;
 	
+	//process each struct node
 	while(child != NULL)
 	{
 		if(xmlStrcmp(child->name, XC"struct") != 0)
 			NODE_ERROR(child, "a child of the 'structs' node must be a 'struct' node");
 		
+		//get struct name
 		xmlChar* name = xmlGetProp(child, "name");
 		if(name == NULL)
 			NODE_ERROR(child, "missing 'name' attribute in 'struct' node");

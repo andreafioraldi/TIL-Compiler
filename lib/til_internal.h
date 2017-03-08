@@ -32,11 +32,16 @@
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 
+//initial buffer size for a til_bytes_t
 #define TIL_BYTES_INITIAL_BLOCK 32
+
+//max size for a single error string
 #define TMP_ERR_SIZE 256
 
+//easy cast macro
 #define XC (const xmlChar*)
 
+//helper to report structure errors caused by xml nodes
 #define NODE_ERROR(node, ...) \
 do { \
 	char tmp[TMP_ERR_SIZE]; \
@@ -47,6 +52,7 @@ do { \
 	return 1; \
 } while(0)
 
+//helper to report missing node errors
 #define CHECK_MISSING_NODE(node, name) \
 if((node) == NULL) \
 { \
@@ -54,11 +60,12 @@ if((node) == NULL) \
 	return 1; \
 }
 
+/* bytes queque data structure definition */
 struct _til_bytes
 {
 	unsigned char *buf;
-	size_t len;
-	size_t allocd;
+	size_t len; //buffer length
+	size_t allocd; //buffer allocated space
 };
 
 int compile_strings
@@ -85,11 +92,13 @@ int compile_functions
 int compile_libs
 	(xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
 
+/* parameters to pass to the assembler parser
+   enclosed in a structure */
 struct _assembler_data
 {
 	til_bytes_t err;
 	til_bytes_t bytecode;
-	void* lexer;
+	void* lexer; //flex lexer
 	char* source;
 	char* source_it;
 	int initial_line;
@@ -98,9 +107,11 @@ struct _assembler_data
 
 typedef struct _assembler_data assembler_data_t[1];
 
+//init flex lexer and set structure fields
 void assembler_data_init	
 	(struct _assembler_data* assembler, char* source, int initial_line, til_bytes_t bytecode, til_bytes_t err);
 
+//destroy flex lexer
 void assembler_data_destroy
 	(struct _assembler_data* assembler);
 

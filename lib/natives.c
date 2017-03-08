@@ -28,10 +28,12 @@
 int compile_signature
 	(xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err)
 {
+	//get function name
 	xmlChar* name = xmlGetProp(node, "name");
 	if(name == NULL)
 		NODE_ERROR(node, "missing 'name' attribute in 'signature' node");
 	
+	//get return type
 	xmlChar* type = xmlGetProp(node, "type");
 	if(type == NULL)
 		NODE_ERROR(node, "missing 'type' attribute in 'signature' node");
@@ -49,15 +51,17 @@ int compile_signature
 	
 	xmlNodePtr child = xmlFirstElementChild(node);
 	
+	//add the number of node children to bytecode
 	uint16_t count = (uint16_t)xmlChildElementCount(node);
-	
 	til_bytes_add_ushort(bytecode, count);
 	
+	//process each parameter
 	while(child != NULL)
 	{
 		if(xmlStrcmp(child->name, XC"param") != 0)
 			NODE_ERROR(child, "a child of a 'signature' node must be a 'param' node");
 		
+		//get parameter type
 		xmlChar* type = xmlGetProp(child, "type");
 		if(name == NULL)
 			NODE_ERROR(child, "missing 'type' attribute in 'param' node");
@@ -79,12 +83,13 @@ int compile_native
 {
 	xmlNodePtr child = xmlFirstElementChild(node);
 	
+	//add the number of node children to bytecode
 	uint16_t count = (uint16_t)xmlChildElementCount(node);
-	
 	til_bytes_add_ushort(bytecode, count);
 	
 	int sum = 0;
 	
+	//process each native functions
 	while(child != NULL)
 	{
 		if(xmlStrcmp(child->name, XC"signature") != 0)
@@ -105,17 +110,19 @@ int compile_natives
 {
 	xmlNodePtr child = xmlFirstElementChild(node);
 	
+	//add the number of node children to bytecode
 	uint16_t count = (uint16_t)xmlChildElementCount(node);
-	
 	til_bytes_add_ushort(bytecode, count);
 	
 	int sum = 0;
 	
+	//process each native node
 	while(child != NULL)
 	{
 		if(xmlStrcmp(child->name, XC"native") != 0)
 			NODE_ERROR(child, "a child of the 'natives' node must be a 'native' node");
 		
+		//get native library name
 		xmlChar* name = xmlGetProp(child, "name");
 		if(name == NULL)
 			NODE_ERROR(child, "missing 'name' attribute in 'native' node");

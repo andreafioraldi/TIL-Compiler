@@ -30,20 +30,22 @@ int compile_links
 {
 	xmlNodePtr child = xmlFirstElementChild(node);
 	
+	//add the number of node children to bytecode
 	uint16_t count = (uint16_t)xmlChildElementCount(node);
-	
 	til_bytes_add_ushort(bytecode, count);
 	
 	int sum = 0;
 	
+	//process each link
 	while(child != NULL)
 	{
 		if(xmlStrcmp(child->name, XC"link") != 0)
 			NODE_ERROR(child, "a child of the '%s' node must be a 'link' node", node_name);
 		
+		//get linked variable name
 		xmlChar* name = xmlGetProp(child, "name");
 		if(name == NULL)
-			NODE_ERROR(child, "missing 'name' attribute in 'lib' node");
+			NODE_ERROR(child, "missing 'name' attribute in 'link' node");
 		
 		til_bytes_add_str(bytecode, (unsigned char*)name, strlen((char*)name) +1);
 		
@@ -62,6 +64,7 @@ int compile_lib
 {
 	int sum = 0;
 	
+	//process records node
 	xmlNodePtr child = xmlFirstElementChild(node);
 	CHECK_MISSING_NODE(child, "records");
 	if(xmlStrcmp(child->name, XC"records") != 0)
@@ -69,6 +72,7 @@ int compile_lib
 	
 	sum += compile_links("records", child, bytecode, err);
 	
+	//process data node
 	child = xmlNextElementSibling(child);
 	CHECK_MISSING_NODE(child, "data");
 	if(xmlStrcmp(child->name, XC"data") != 0)
@@ -76,6 +80,7 @@ int compile_lib
 	
 	sum += compile_links("data", child, bytecode, err);
 	
+	//process imported node
 	child = xmlNextElementSibling(child);
 	CHECK_MISSING_NODE(child, "imported");
 	if(xmlStrcmp(child->name, XC"imported") != 0)
@@ -83,6 +88,7 @@ int compile_lib
 	
 	sum += compile_links("imported", child, bytecode, err);
 	
+	//process functions node
 	child = xmlNextElementSibling(child);
 	CHECK_MISSING_NODE(child, "functions");
 	if(xmlStrcmp(child->name, XC"functions") != 0)
@@ -100,21 +106,24 @@ int compile_libs
 {
 	xmlNodePtr child = xmlFirstElementChild(node);
 	
+	//add the number of node children to bytecode
 	uint16_t count = (uint16_t)xmlChildElementCount(node);
-	
 	til_bytes_add_ushort(bytecode, count);
 	
 	int sum = 0;
 	
+	//process each lib node
 	while(child != NULL)
 	{
 		if(xmlStrcmp(child->name, XC"lib") != 0)
 			NODE_ERROR(child, "a child of the 'libs' node must be a 'lib' node");
 		
+		//get library name
 		xmlChar* name = xmlGetProp(child, "name");
 		if(name == NULL)
 			NODE_ERROR(child, "missing 'name' attribute in 'lib' node");
 		
+		//add the name (0-terminated) to the bytecode
 		til_bytes_add_str(bytecode, (unsigned char*)name, strlen((char*)name) +1);
 		
 		xmlFree(name);

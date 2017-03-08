@@ -30,20 +30,22 @@ int compile_strings
 {
 	xmlNodePtr child = xmlFirstElementChild(node);
 	
+	//add the number of node children to bytecode
 	uint16_t count = (uint16_t)xmlChildElementCount(node);
-	
 	til_bytes_add_ushort(bytecode, count);
 	
+	//process each string node
 	while(child != NULL)
 	{
 		if(xmlStrcmp(child->name, XC"string") != 0)
 			NODE_ERROR(child, "a child of the 'strings' node must be a 'string' node");
 		
 		if(child->children == NULL)
-			til_bytes_add(bytecode, 0);
+			til_bytes_add(bytecode, 0); //add 0 to bytecode is the string is empty
 		else {
 			char* text = (char*)child->children->content;
 			
+			//add the string (0-terminated) to bytecode
 			til_bytes_add_str(bytecode, text, strlen(text) +1);
 		}
 		

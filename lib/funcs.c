@@ -36,6 +36,7 @@ int compile_function
 	
 	int r = compile_signature(child, bytecode, err);
 	
+	//get stack length
 	xmlChar* stack = xmlGetProp(node, "stack");
 	if(stack == NULL)
 		NODE_ERROR(node, "missing 'stack' attribute in 'func' node");
@@ -45,6 +46,7 @@ int compile_function
 	
 	xmlFree(stack);
 	
+	//get the number of local variables
 	xmlChar* locals = xmlGetProp(node, "locals");
 	if(locals == NULL)
 		NODE_ERROR(node, "missing 'locals' attribute in 'func' node");
@@ -54,6 +56,7 @@ int compile_function
 	
 	xmlFree(locals);
 	
+	//get the number of labels
 	xmlChar* labels = xmlGetProp(node, "labels");
 	if(labels == NULL)
 		NODE_ERROR(node, "missing 'labels' attribute in 'func' node");
@@ -63,6 +66,7 @@ int compile_function
 	
 	xmlFree(labels);
 	
+	//process code node
 	child = xmlNextElementSibling(child);
 	CHECK_MISSING_NODE(child, "code");
 	if(xmlStrcmp(child->name, XC"code") != 0)
@@ -72,17 +76,21 @@ int compile_function
 	{
 		char* text = (char*)child->children->content;
 		
+		//compile the assembly contained in the code node
 		til_bytes_t b = til_assembler(text, xmlGetLineNo(child) -1, err);
 		
 		if(b == NULL)
 			return 1;
 		
+		//add the length of the compiled code to the bytecode
 		til_bytes_add_uint(bytecode, til_bytes_get_buffer_size(b));
+		
+		//merge compiled code to the main bytecode queque
 		til_bytes_cat(bytecode, b);
 		
 		til_bytes_free(b);
 	}
-	else til_bytes_add_uint(bytecode, 0);
+	else til_bytes_add_uint(bytecode, 0); //if code node text doesn't exist add 0 to bytecode
 	
 	return r;
 }
@@ -92,12 +100,13 @@ int compile_functions
 {
 	xmlNodePtr child = xmlFirstElementChild(node);
 	
+	//add the number of node children to bytecode
 	uint16_t count = (uint16_t)xmlChildElementCount(node);
-	
 	til_bytes_add_ushort(bytecode, count);
 	
 	int sum = 0;
 	
+	//process each func node
 	while(child != NULL)
 	{
 		if(xmlStrcmp(child->name, XC"func") != 0)

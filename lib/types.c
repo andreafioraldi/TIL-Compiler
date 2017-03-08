@@ -34,7 +34,7 @@ int til_serialize_type(char *type, til_bytes_t bytes)
 		til_bytes_add(bytes, TYPEID_POINTER);
 		++type;
 	}
-	if(*type == '#')
+	if(*type == '#') //struct type: #[num]
 	{
 		++type;
 		char* e;
@@ -45,7 +45,7 @@ int til_serialize_type(char *type, til_bytes_t bytes)
 		til_bytes_add(bytes, TYPEID_STRUCT);
 		til_bytes_add_ushort(bytes, idx);
 	}
-	else if(*type == '@')
+	else if(*type == '@') //external struct type: @[num]
 	{
 		++type;
 		char* e;
