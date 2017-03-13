@@ -79,13 +79,16 @@ int compile_signature
 }
 
 int compile_native
-	(xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err)
+	(xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err, uint16_t* total_count)
 {
 	xmlNodePtr child = xmlFirstElementChild(node);
 	
 	//add the number of node children to bytecode
 	uint16_t count = (uint16_t)xmlChildElementCount(node);
 	til_bytes_add_ushort(bytecode, count);
+	
+	//add count to total signature count
+	*total_count += count;
 	
 	int sum = 0;
 	
@@ -110,9 +113,15 @@ int compile_natives
 {
 	xmlNodePtr child = xmlFirstElementChild(node);
 	
+	//count all signatures
+	uint16_t total_count = 0;
+	
+	//create a temporary bytes buffer
+	til_bytes_t b = til_bytes_create();
+	
 	//add the number of node children to bytecode
 	uint16_t count = (uint16_t)xmlChildElementCount(node);
-	til_bytes_add_ushort(bytecode, count);
+	til_bytes_add_ushort(b, count);
 	
 	int sum = 0;
 	
@@ -127,14 +136,20 @@ int compile_natives
 		if(name == NULL)
 			NODE_ERROR(child, "missing 'name' attribute in 'native' node");
 		
-		til_bytes_add_str(bytecode, (unsigned char*)name, strlen((char*)name) +1);
+		til_bytes_add_str(b, (unsigned char*)name, strlen((char*)name) +1);
 		
 		xmlFree(name);
 		
-		sum += compile_native(child, bytecode, err);
+		sum += compile_native(child, b, err, &total_count);
 		
 		child = xmlNextElementSibling(child);
 	}
+	
+	//add to bytecode the total number of native signatures
+	til_bytes_add_ushort(bytecode, total_count);
+	
+	//merge temporary buffer
+	til_bytes_cat(bytecode, b);
 	
 	if(sum)
 		return 1;
