@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+
+<!--
+    file: hello.til
+    author: Andrea Fioraldi <andreafioraldi@gmail.com>
+    license: MIT
+    
+    Hello World in Tripel Intermediate Language using C API
+-->
+
+<til version="1.0">
+	<strings>
+		<string>Hello World</string>
+	</strings>
+
+	<structs>
+	</structs>
+
+	<globals>
+		<var type="^i8" name="message"/>
+	</globals>
+
+	<natives>
+		<native name="libc">
+			<signature name="puts" type="i32">
+				<param type="^i8"/>
+			</signature>
+		</native>
+	</natives>
+
+	<start stack="1" locals="0" labels="0">
+		<code>
+			ld_str 0
+			store_gbl 0
+		</code>
+	</start>
+
+	<funcs>
+		<func stack="1" locals="0" labels="0">
+			<signature name="Main" type="i32">
+				<param type="i32"/>
+				<param type="^^i8"/>
+			</signature>
+			<code>
+				push_gbl 0
+				n_call 0 1
+				ld_i32 0
+				ret
+			</code>
+		</func>
+	</funcs>
+	
+	<libs>
+	</libs>
+</til>
+
+<!-- C version
+#include <stdio.h>
+
+char* message = "Hello World";
+
+int main
+    (int argc, char** argv)
+{
+    puts(message);
+    return 0;
+}
+-->
+
+
+
+

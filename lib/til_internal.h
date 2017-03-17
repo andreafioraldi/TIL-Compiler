@@ -44,75 +44,75 @@
 //helper to report structure errors caused by xml nodes
 #define NODE_ERROR(node, ...) \
 do { \
-	char tmp[TMP_ERR_SIZE]; \
-	sprintf(tmp, "Error: line %d: structure error: ", (node)->line); \
-	sprintf(tmp + strlen(tmp), __VA_ARGS__); \
-	til_bytes_add_str(err, tmp, strlen(tmp)); \
-	til_bytes_add(err, '\n'); \
-	return 1; \
+    char tmp[TMP_ERR_SIZE]; \
+    sprintf(tmp, "Error: line %d: structure error: ", (node)->line); \
+    sprintf(tmp + strlen(tmp), __VA_ARGS__); \
+    til_bytes_add_str(err, tmp, strlen(tmp)); \
+    til_bytes_add(err, '\n'); \
+    return 1; \
 } while(0)
 
 //helper to report missing node errors
 #define CHECK_MISSING_NODE(node, name) \
 if((node) == NULL) \
 { \
-	til_bytes_add_str(err, "Error: missing node '" name "'\n", 23 + strlen(name)); \
-	return 1; \
+    til_bytes_add_str(err, "Error: missing node '" name "'\n", 23 + strlen(name)); \
+    return 1; \
 }
 
 /* bytes stack data structure definition */
 struct _til_bytes
 {
-	unsigned char *buf;
-	size_t len; //buffer length
-	size_t allocd; //buffer allocated space
+    unsigned char *buf;
+    size_t len; //buffer length
+    size_t allocd; //buffer allocated space
 };
 
 int compile_strings
-	(xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
+    (xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
 
 int compile_structs
-	(xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
+    (xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
 
 int compile_vars
-	(char * node_name, xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
+    (char * node_name, xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
 
 int compile_natives
-	(xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
+    (xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
 
 int compile_signature
-	(xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
+    (xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
 
 int compile_start
-	(xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
+    (xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
 
 int compile_functions
-	(xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
+    (xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
 
 int compile_libs
-	(xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
+    (xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err);
 
 /* parameters to pass to the assembler parser
    enclosed in a structure */
 struct _assembler_data
 {
-	til_bytes_t err;
-	til_bytes_t bytecode;
-	void* lexer; //flex lexer
-	char* source;
-	char* source_it;
-	int initial_line;
-	int errors_num;
+    til_bytes_t err;
+    til_bytes_t bytecode;
+    void* lexer; //flex lexer
+    char* source;
+    char* source_it;
+    int initial_line;
+    int errors_num;
 };
 
 typedef struct _assembler_data assembler_data_t[1];
 
 //init flex lexer and set structure fields
-void assembler_data_init	
-	(struct _assembler_data* assembler, char* source, int initial_line, til_bytes_t bytecode, til_bytes_t err);
+void assembler_data_init    
+    (struct _assembler_data* assembler, char* source, int initial_line, til_bytes_t bytecode, til_bytes_t err);
 
 //destroy flex lexer
 void assembler_data_destroy
-	(struct _assembler_data* assembler);
+    (struct _assembler_data* assembler);
 
 #endif

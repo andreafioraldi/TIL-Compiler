@@ -26,65 +26,65 @@
 #include "til_internal.h"
 
 int compile_start
-	(xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err)
+    (xmlNodePtr node, til_bytes_t bytecode, til_bytes_t err)
 {
-	//get stack length
-	xmlChar* stack = xmlGetProp(node, "stack");
-	if(stack == NULL)
-		NODE_ERROR(node, "missing 'stack' attribute in 'start' node");
-	
-	uint16_t num = atoi(stack);
-	til_bytes_add_ushort(bytecode, num);
-	
-	xmlFree(stack);
-	
-	//get the number of local variables
-	xmlChar* locals = xmlGetProp(node, "locals");
-	if(locals == NULL)
-		NODE_ERROR(node, "missing 'locals' attribute in 'start' node");
-	
-	num = atoi(locals);
-	til_bytes_add_ushort(bytecode, num);
-	
-	xmlFree(locals);
-	
-	//get the number of labels
-	xmlChar* labels = xmlGetProp(node, "labels");
-	if(labels == NULL)
-		NODE_ERROR(node, "missing 'labels' attribute in 'start' node");
-	
-	num = atoi(labels);
-	til_bytes_add_ushort(bytecode, num);
-	
-	xmlFree(labels);
-	
-	//process code node
-	xmlNodePtr child = xmlFirstElementChild(node);
-	CHECK_MISSING_NODE(child, "code");
-	if(xmlStrcmp(child->name, XC"code") != 0)
-		NODE_ERROR(child, "the child of the 'start' node must be a 'code' node");
-	
-	if(child->children)
-	{
-		char* text = (char*)child->children->content;
-		
-		//compile the assembly contained in the code node
-		til_bytes_t b = til_assembler(text, xmlGetLineNo(child) -1, err);
-		
-		if(b == NULL)
-			return 1;
-		
-		//add the length of the compiled code to the bytecode
-		til_bytes_add_uint(bytecode, til_bytes_get_buffer_size(b));
-		
-		//merge compiled code to the main bytecode stack
-		til_bytes_cat(bytecode, b);
-		
-		til_bytes_free(b);
-	}
-	else til_bytes_add_uint(bytecode, 0); //if code node text doesn't exist add 0 to bytecode
+    //get stack length
+    xmlChar* stack = xmlGetProp(node, "stack");
+    if(stack == NULL)
+        NODE_ERROR(node, "missing 'stack' attribute in 'start' node");
+    
+    uint16_t num = atoi(stack);
+    til_bytes_add_ushort(bytecode, num);
+    
+    xmlFree(stack);
+    
+    //get the number of local variables
+    xmlChar* locals = xmlGetProp(node, "locals");
+    if(locals == NULL)
+        NODE_ERROR(node, "missing 'locals' attribute in 'start' node");
+    
+    num = atoi(locals);
+    til_bytes_add_ushort(bytecode, num);
+    
+    xmlFree(locals);
+    
+    //get the number of labels
+    xmlChar* labels = xmlGetProp(node, "labels");
+    if(labels == NULL)
+        NODE_ERROR(node, "missing 'labels' attribute in 'start' node");
+    
+    num = atoi(labels);
+    til_bytes_add_ushort(bytecode, num);
+    
+    xmlFree(labels);
+    
+    //process code node
+    xmlNodePtr child = xmlFirstElementChild(node);
+    CHECK_MISSING_NODE(child, "code");
+    if(xmlStrcmp(child->name, XC"code") != 0)
+        NODE_ERROR(child, "the child of the 'start' node must be a 'code' node");
+    
+    if(child->children)
+    {
+        char* text = (char*)child->children->content;
+        
+        //compile the assembly contained in the code node
+        til_bytes_t b = til_assembler(text, xmlGetLineNo(child) -1, err);
+        
+        if(b == NULL)
+            return 1;
+        
+        //add the length of the compiled code to the bytecode
+        til_bytes_add_uint(bytecode, til_bytes_get_buffer_size(b));
+        
+        //merge compiled code to the main bytecode stack
+        til_bytes_cat(bytecode, b);
+        
+        til_bytes_free(b);
+    }
+    else til_bytes_add_uint(bytecode, 0); //if code node text doesn't exist add 0 to bytecode
 
-	return 0;
+    return 0;
 }
 
 

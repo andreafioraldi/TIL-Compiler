@@ -41,131 +41,131 @@
 
 
 #define YY_INPUT(buf, result, max_size) { \
-	int c = *yyextra->source_it; \
-	if(c == 0) \
-		result = YY_NULL; \
-	else \
-	{ \
-		buf[0] = c; \
-		result = 1; \
-		++yyextra->source_it; \
-	} \
+    int c = *yyextra->source_it; \
+    if(c == 0) \
+        result = YY_NULL; \
+    else \
+    { \
+        buf[0] = c; \
+        result = 1; \
+        ++yyextra->source_it; \
+    } \
 }
 
 char* stringize
-	(char c)
+    (char c)
 {
-	char* buf = malloc(2);
-	*buf = c;
-	buf[1] = 0;
-	return buf;
+    char* buf = malloc(2);
+    *buf = c;
+    buf[1] = 0;
+    return buf;
 }
 
 %}
 
 %%
 
-"i8"		{
-			yylval->text = stringize(TYPEID_SBYTE);
-			return T_I8;
-		}
-"u8"		{
-			yylval->text = stringize(TYPEID_UBYTE);
-			return T_U8;
-		}
-"i16"		{
-			yylval->text = stringize(TYPEID_SHORT);
-			return T_I16;
-		}
-"u16"		{
-			yylval->text = stringize(TYPEID_USHORT);
-			return T_U16;
-		}
-"i32"		{
-			yylval->text = stringize(TYPEID_INT);
-			return T_I32;
-		}
-"u32"		{
-			yylval->text = stringize(TYPEID_UINT);
-			return T_U32;
-		}
-"i64"		{
-			yylval->text = stringize(TYPEID_LONG);
-			return T_I64;
-		}
-"u64"		{
-			yylval->text = stringize(TYPEID_ULONG);
-			return T_U64;
-		}
-"f32"		{
-			yylval->text = stringize(TYPEID_FLOAT);
-			return T_F32;
-		}
-"f64"		{
-			yylval->text = stringize(TYPEID_DOUBLE);
-			return T_F64;
-		}
-"void"		{
-			yylval->text = stringize(TYPEID_VOID);
-			return T_VOID;
-		}
-"vp"		{
-			yylval->text = stringize(TYPEID_VOID_PTR);
-			return T_VP;
-		}
+"i8"        {
+            yylval->text = stringize(TYPEID_SBYTE);
+            return T_I8;
+        }
+"u8"        {
+            yylval->text = stringize(TYPEID_UBYTE);
+            return T_U8;
+        }
+"i16"        {
+            yylval->text = stringize(TYPEID_SHORT);
+            return T_I16;
+        }
+"u16"        {
+            yylval->text = stringize(TYPEID_USHORT);
+            return T_U16;
+        }
+"i32"        {
+            yylval->text = stringize(TYPEID_INT);
+            return T_I32;
+        }
+"u32"        {
+            yylval->text = stringize(TYPEID_UINT);
+            return T_U32;
+        }
+"i64"        {
+            yylval->text = stringize(TYPEID_LONG);
+            return T_I64;
+        }
+"u64"        {
+            yylval->text = stringize(TYPEID_ULONG);
+            return T_U64;
+        }
+"f32"        {
+            yylval->text = stringize(TYPEID_FLOAT);
+            return T_F32;
+        }
+"f64"        {
+            yylval->text = stringize(TYPEID_DOUBLE);
+            return T_F64;
+        }
+"void"        {
+            yylval->text = stringize(TYPEID_VOID);
+            return T_VOID;
+        }
+"vp"        {
+            yylval->text = stringize(TYPEID_VOID_PTR);
+            return T_VP;
+        }
 
-"ssc"		{
-			yylval->text = stringize(TYPEID_NATIVE_CHAR);
-			return T_SSC;
-		}
-"suc"		{
-			yylval->text = stringize(TYPEID_NATIVE_UCHAR);
-			return T_SUC;
-		}
-"sss"		{
-			yylval->text = stringize(TYPEID_NATIVE_SHORT);
-			return T_SSS;
-		}
-"sus"		{
-			yylval->text = stringize(TYPEID_NATIVE_USHORT);
-			return T_SUC;
-		}
-"ssi"		{
-			yylval->text = stringize(TYPEID_NATIVE_INT);
-			return T_SSI;
-		}
-"sui"		{
-			yylval->text = stringize(TYPEID_NATIVE_UINT);
-			return T_SUI;
-		}
-"ssl"		{
-			yylval->text = stringize(TYPEID_NATIVE_LONG);
-			return T_SSL;
-		}
-"sul"		{
-			yylval->text = stringize(TYPEID_NATIVE_ULONG);
-			return T_SUL;
-		}
-"ssll"		{
-			yylval->text = stringize(TYPEID_NATIVE_LONGLONG);
-			return T_SSLL;
-		}
-"sull"		{
-			yylval->text = stringize(TYPEID_NATIVE_ULONGLONG);
-			return T_SULL;
-		}
-"sf"		{
-			yylval->text = stringize(TYPEID_NATIVE_FLOAT);
-			return T_SF;
-		}
-"sd"		{
-			yylval->text = stringize(TYPEID_NATIVE_DOUBLE);
-			return T_SD;
-		}
-"sld"		{
-			yylval->text = stringize(TYPEID_NATIVE_LONGDOUBLE);
-			return T_SLD;
-		}
+"ssc"        {
+            yylval->text = stringize(TYPEID_NATIVE_CHAR);
+            return T_SSC;
+        }
+"suc"        {
+            yylval->text = stringize(TYPEID_NATIVE_UCHAR);
+            return T_SUC;
+        }
+"sss"        {
+            yylval->text = stringize(TYPEID_NATIVE_SHORT);
+            return T_SSS;
+        }
+"sus"        {
+            yylval->text = stringize(TYPEID_NATIVE_USHORT);
+            return T_SUC;
+        }
+"ssi"        {
+            yylval->text = stringize(TYPEID_NATIVE_INT);
+            return T_SSI;
+        }
+"sui"        {
+            yylval->text = stringize(TYPEID_NATIVE_UINT);
+            return T_SUI;
+        }
+"ssl"        {
+            yylval->text = stringize(TYPEID_NATIVE_LONG);
+            return T_SSL;
+        }
+"sul"        {
+            yylval->text = stringize(TYPEID_NATIVE_ULONG);
+            return T_SUL;
+        }
+"ssll"        {
+            yylval->text = stringize(TYPEID_NATIVE_LONGLONG);
+            return T_SSLL;
+        }
+"sull"        {
+            yylval->text = stringize(TYPEID_NATIVE_ULONGLONG);
+            return T_SULL;
+        }
+"sf"        {
+            yylval->text = stringize(TYPEID_NATIVE_FLOAT);
+            return T_SF;
+        }
+"sd"        {
+            yylval->text = stringize(TYPEID_NATIVE_DOUBLE);
+            return T_SD;
+        }
+"sld"        {
+            yylval->text = stringize(TYPEID_NATIVE_LONGDOUBLE);
+            return T_SLD;
+        }
 
 "nop"             { return T_NOP; }
 "ld_i8"           { return T_LD_I8; }
@@ -342,104 +342,104 @@ char* stringize
 "abort"           { return T_ABORT; }
 
 ("0"|[1-9][0-9]*)|("0"[xX]([0-9]|[a-fA-F])+)|("0"[0-7]+) {
-	yylval->text = strdup(yytext);
-	return T_INT;
+    yylval->text = strdup(yytext);
+    return T_INT;
 }
 
 [0-9]*"."[0-9]+ {
-	yylval->text = strdup(yytext);
-	return T_FLOAT;
+    yylval->text = strdup(yytext);
+    return T_FLOAT;
 }
 
 \'(\\.|[^\\'])+\' {
-	#define CHAR_ERR \
-	do { \
-		char tmp[80]; \
-		snprintf(tmp, 80, "Error: line %d: assembler error: invalid character constant %s", yylineno + yyextra->initial_line, yytext); \
-		til_bytes_add_str(yyextra->err, tmp, strlen(tmp)); \
-	} while(0)
-	
-	size_t size = strlen(yytext +1) -1;
-	char* buf = yytext +1;
-	
-	if(*buf == '\\')
-	{
-		++buf;
-		if(size < 2)
-			CHAR_ERR;
-		else if(size == 2)
-		{
-			if(*buf == '\\')
-				yylval->byte = '\\';
-			else if(*buf == '\'')
-				yylval->byte = '\'';
-			else if(*buf == '\"')
-				yylval->byte = '\"';
-			else if(*buf == 'n')
-				yylval->byte = '\n';
-			else if(*buf == 't')
-				yylval->byte = '\t';
-			else if(*buf == 'r')
-				yylval->byte = '\r';
-			else if(*buf == 'v')
-				yylval->byte = '\v';
-			else CHAR_ERR;
-		}
-		else if(size == 4)
-		{
-			if(*buf == 'x')
-			{
-				--buf;
-				*buf = '0';
-				char* end;
-				long conv = strtol(buf, &end, 0);
-				if(end != buf + 4)
-					CHAR_ERR;
-				yylval->byte = (char)conv;
-			}
-			else
-			{
-				char* end;
-				long conv = strtol(buf, &end, 0);
-				if(end != buf + 3)
-					CHAR_ERR;
-				yylval->byte = (char)conv;
-			}
-		}
-		else CHAR_ERR;
-	}
-	else if(size == 1)
-		yylval->byte = *buf;
-	else CHAR_ERR;
-	
-	return T_CHAR;
+    #define CHAR_ERR \
+    do { \
+        char tmp[80]; \
+        snprintf(tmp, 80, "Error: line %d: assembler error: invalid character constant %s", yylineno + yyextra->initial_line, yytext); \
+        til_bytes_add_str(yyextra->err, tmp, strlen(tmp)); \
+    } while(0)
+    
+    size_t size = strlen(yytext +1) -1;
+    char* buf = yytext +1;
+    
+    if(*buf == '\\')
+    {
+        ++buf;
+        if(size < 2)
+            CHAR_ERR;
+        else if(size == 2)
+        {
+            if(*buf == '\\')
+                yylval->byte = '\\';
+            else if(*buf == '\'')
+                yylval->byte = '\'';
+            else if(*buf == '\"')
+                yylval->byte = '\"';
+            else if(*buf == 'n')
+                yylval->byte = '\n';
+            else if(*buf == 't')
+                yylval->byte = '\t';
+            else if(*buf == 'r')
+                yylval->byte = '\r';
+            else if(*buf == 'v')
+                yylval->byte = '\v';
+            else CHAR_ERR;
+        }
+        else if(size == 4)
+        {
+            if(*buf == 'x')
+            {
+                --buf;
+                *buf = '0';
+                char* end;
+                long conv = strtol(buf, &end, 0);
+                if(end != buf + 4)
+                    CHAR_ERR;
+                yylval->byte = (char)conv;
+            }
+            else
+            {
+                char* end;
+                long conv = strtol(buf, &end, 0);
+                if(end != buf + 3)
+                    CHAR_ERR;
+                yylval->byte = (char)conv;
+            }
+        }
+        else CHAR_ERR;
+    }
+    else if(size == 1)
+        yylval->byte = *buf;
+    else CHAR_ERR;
+    
+    return T_CHAR;
 }
 
 "^"          { return '^'; }
 
-[ \t\v\f\r\n]+	{ }
-.		{ return T_NOT_RECOGNIZED; }
+[ \t\v\f\r\n]+    { }
+.        { return T_NOT_RECOGNIZED; }
 
 %%
 
-void assembler_data_init	
-	(struct _assembler_data* assembler, char* source, int initial_line, til_bytes_t bytecode, til_bytes_t err)
+void assembler_data_init    
+    (struct _assembler_data* assembler, char* source, int initial_line, til_bytes_t bytecode, til_bytes_t err)
 {
-	assembler->source = source;
-	assembler->source_it = source;
-	assembler->initial_line = initial_line;
-	assembler->bytecode = bytecode;
-	assembler->err = err;
-	assembler->errors_num = 0;
-	
-	yylex_init(&assembler->lexer);
-	yyset_extra(assembler, assembler->lexer);
+    assembler->source = source;
+    assembler->source_it = source;
+    assembler->initial_line = initial_line;
+    assembler->bytecode = bytecode;
+    assembler->err = err;
+    assembler->errors_num = 0;
+    
+    yylex_init(&assembler->lexer);
+    yyset_extra(assembler, assembler->lexer);
 }
 
 void assembler_data_destroy
-	(struct _assembler_data* assembler)
+    (struct _assembler_data* assembler)
 {
-	yylex_destroy(assembler->lexer);
+    yylex_destroy(assembler->lexer);
 }
 
 

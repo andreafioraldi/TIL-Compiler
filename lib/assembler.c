@@ -27,26 +27,26 @@
 #include "parser.h"
 
 til_bytes_t til_assembler
-	(char* assembly, int initial_line, til_bytes_t err)
+    (char* assembly, int initial_line, til_bytes_t err)
 {
-	til_bytes_t bytecode = til_bytes_create();
-	
-	//init lexer and set assembler fields
-	assembler_data_t assembler;
-	assembler_data_init(assembler, assembly, initial_line, bytecode, err);
-	
-	//call the bison generated parser
-	yyparse(assembler);
-	
-	//destroy assembler lexer
-	assembler_data_destroy(assembler);
-	
-	if(assembler->errors_num)
-	{
-		til_bytes_free(bytecode);
-		return NULL;
-	}
-	return bytecode;
+    til_bytes_t bytecode = til_bytes_create();
+    
+    //init lexer and set assembler fields
+    assembler_data_t assembler;
+    assembler_data_init(assembler, assembly, initial_line, bytecode, err);
+    
+    //call the bison generated parser
+    yyparse(assembler);
+    
+    //destroy assembler lexer
+    assembler_data_destroy(assembler);
+    
+    if(assembler->errors_num)
+    {
+        til_bytes_free(bytecode);
+        return NULL;
+    }
+    return bytecode;
 }
 
 

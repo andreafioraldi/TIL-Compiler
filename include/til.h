@@ -251,77 +251,77 @@ til_bytes_t til_bytes_create();
 
 /* add a byte to a bytes stack */
 void til_bytes_add
-	(til_bytes_t bytes, unsigned char b);
+    (til_bytes_t bytes, unsigned char b);
 
 /* add a bytes array to a bytes stack */
 void til_bytes_add_str
-	(til_bytes_t bytes, unsigned char* a, size_t l);
+    (til_bytes_t bytes, unsigned char* a, size_t l);
 
 /* serialize and add a short to a bytes stack */
 void til_bytes_add_short
-	(til_bytes_t bytes, int16_t n);
+    (til_bytes_t bytes, int16_t n);
 
 /* serialize and add an unsigned short to a bytes stack */
 void til_bytes_add_ushort
-	(til_bytes_t bytes, uint16_t n);
+    (til_bytes_t bytes, uint16_t n);
 
 /* serialize and add an int to a bytes stack */
 void til_bytes_add_int
-	(til_bytes_t bytes, int32_t n);
+    (til_bytes_t bytes, int32_t n);
 
 /* serialize and add an unsigned int to a bytes stack */
 void til_bytes_add_uint
-	(til_bytes_t bytes, uint32_t n);
+    (til_bytes_t bytes, uint32_t n);
 
 /* serialize and add a long to a bytes stack */
 void til_bytes_add_long
-	(til_bytes_t bytes, int64_t n);
+    (til_bytes_t bytes, int64_t n);
 
 /* serialize and add an unsigned long to a bytes stack */
 void til_bytes_add_ulong
-	(til_bytes_t bytes, uint64_t n);
+    (til_bytes_t bytes, uint64_t n);
 
 /* serialize and add a float to a bytes stack */
 void til_bytes_add_float32
-	(til_bytes_t bytes, float n);
+    (til_bytes_t bytes, float n);
 
 /* serialize and add a double to a bytes stack */
 void til_bytes_add_float64
-	(til_bytes_t bytes, double n);
+    (til_bytes_t bytes, double n);
 
 /* append a bytes stack to another */
 void til_bytes_cat
-	(til_bytes_t bytes, til_bytes_t b);
+    (til_bytes_t bytes, til_bytes_t b);
 
 /* print the entire bytes stack to a file */
 void til_bytes_print
-	(til_bytes_t bytes, FILE* file);
+    (til_bytes_t bytes, FILE* file);
 
 /* get a copy of the bytes stack's buffer */
 unsigned char* til_bytes_get_buffer
-	(til_bytes_t bytes);
+    (til_bytes_t bytes);
 
 /* get the number of the bytes in a bytes stack */
 size_t til_bytes_get_buffer_size
-	(til_bytes_t bytes);
+    (til_bytes_t bytes);
 
 /* free a bytes stack and its content */
 void til_bytes_free
-	(til_bytes_t bytes);
+    (til_bytes_t bytes);
 
 /* serialize a type string to bytecode,
    return 0 on success */
 int til_serialize_type
-	(char *type, til_bytes_t bytes);
+    (char *type, til_bytes_t bytes);
 
 /* compile a til source code to bytecode,
    return NULL on failure and set err_ptr content */
 til_bytes_t til_compile
-	(char *source, char** err_ptr);
+    (char *source, char** err_ptr);
 
 /* compile only til assembly to bytecode,
    return NULL on failure */
 til_bytes_t til_assembler
-	(char* assembly, int initial_line, til_bytes_t err);
+    (char* assembly, int initial_line, til_bytes_t err);
 
 #endif
