@@ -60,7 +60,7 @@ static void info()
          " 64 bit"
     #endif
     );
-    
+
     #if defined _WIN32
     puts("    + built on: Windows");
     #elif defined __ANDROID__
@@ -105,7 +105,7 @@ int main
         help(stderr);
         return EXIT_FAILURE;
     }
-    
+
     //parse arguments
     if(strcmp(argv[1], "--help") == 0)
     {
@@ -117,10 +117,10 @@ int main
         info();
         return 0;
     }
-    
+
     char* input_file = NULL;
     char* output_file = NULL;
-    
+
     int i;
     for(i = 1; i < argc; ++i)
     {
@@ -152,7 +152,7 @@ int main
             input_file = argv[i];
         }
     }
-    
+
     //set input file
     FILE* input;
     if(input_file)
@@ -163,42 +163,42 @@ int main
     fseek(input, 0, SEEK_END);
     long input_size = ftell(input);
     rewind(input);
-    
+
     char* input_content = malloc(input_size +1);
-    
+
     //read input
     long k;
     for(k = 0; k < input_size; ++k)
         input_content[k] = fgetc(input);
     input_content[input_size] = 0;
-    
+
     if(input_file)
         fclose(input);
-    
+
     //compile
     char* err = NULL;
     til_bytes_t bytecode = til_compile(input_content, &err);
     if(bytecode == NULL)
     {
         fprintf(stderr, "%s\n", err);
-        
+
         free(err);
         free(input_content);
         return EXIT_FAILURE;
     }
-    
+
     //set output
     FILE* output;
     if(output_file)
         output = fopen(output_file, "wb");
     else output = stdout;
-    
+
     //write header
     fprintf(output, "#!/usr/bin/env tripel\n");
-    
+
     //write output
     til_bytes_print(bytecode, output);
-    
+
     til_bytes_free(bytecode);
 
     if(output_file)
@@ -207,13 +207,10 @@ int main
 
         //set permission
         #ifndef _WIN32
-        chmod(,S_IRWXU);
+        chmod(output_file, S_IRWXU);
         #endif
     }
 
     free(input_content);
     return 0;
 }
-
-
-
